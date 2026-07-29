@@ -1,0 +1,118 @@
+
+:root{
+  --ink:#1a1a1a; --ink-2:#4a4a4a; --ink-3:#8a8a8a;
+  --bg:#ffffff; --bg-2:#fafafa; --line:#ececec; --line-2:#d8d8d8;
+  --accent:#00c19c; --accent-d:#00a687;
+  --serif:"Nanum Myeongjo","Apple SD Gothic Neo","Malgun Gothic",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",
+         "Segoe UI",Roboto,sans-serif;
+}
+[data-theme=dark]{
+  --ink:#ededed; --ink-2:#bdbdbd; --ink-3:#8a8a8a;
+  --bg:#0f0f0f; --bg-2:#161616; --line:#262626; --line-2:#333;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.95;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+/* 상단 */
+.bar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar__in{display:flex;align-items:center;height:56px;gap:16px}
+.bar__home{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.bar__right{margin-left:auto;display:flex;gap:10px;align-items:center}
+.bar__n{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.tgl{border:1px solid var(--line-2);background:var(--bg);color:var(--ink-2);
+  width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px}
+.pbar{position:sticky;top:56px;z-index:39;height:2px}
+.pbar i{display:block;height:2px;width:0;background:var(--accent)}
+
+/* 표지 */
+.cover{padding:80px 0 56px;text-align:center;border-bottom:1px solid var(--line)}
+.cover__badge{display:inline-block;font-size:11px;letter-spacing:.14em;font-weight:700;
+  color:var(--accent-d);border:1px solid var(--accent);border-radius:999px;padding:6px 14px;
+  margin-bottom:26px}
+.cover h1{font-family:var(--serif);font-size:clamp(30px,6vw,44px);line-height:1.35;
+  margin:0 0 18px;font-weight:700;letter-spacing:-.02em}
+.cover p.sub{margin:0 auto 30px;max-width:520px;color:var(--ink-2);font-size:16px;line-height:1.8}
+.cover .by{font-size:14px;color:var(--ink-3);margin:0 0 34px}
+.cover .go{display:inline-block;background:var(--accent);color:#fff;font-weight:700;
+  padding:15px 38px;border-radius:999px;font-size:16px}
+.cover .go:hover{background:var(--accent-d)}
+.stats{display:flex;justify-content:center;gap:36px;margin:34px 0 0;flex-wrap:wrap}
+.stats div{font-size:13px;color:var(--ink-3)}
+.stats b{display:block;font-family:var(--serif);font-size:24px;color:var(--ink);font-weight:700}
+
+/* 소개 */
+.intro{padding:52px 0;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.intro h2{font-family:var(--serif);font-size:21px;margin:0 0 18px;font-weight:700}
+.intro p{margin:0 0 15px;color:var(--ink-2);font-size:16px}
+
+/* 목차 */
+.toc{padding:52px 0 72px}
+.toc h2{font-family:var(--serif);font-size:21px;margin:0 0 6px;font-weight:700}
+.toc .cnt{color:var(--ink-3);font-size:14px;margin:0 0 26px}
+.pt{margin:34px 0 12px;font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--accent-d)}
+.ep{display:flex;gap:18px;padding:20px 0;border-top:1px solid var(--line);align-items:flex-start}
+.ep:hover{background:var(--bg-2)}
+.ep__n{font-family:var(--serif);font-size:15px;color:var(--ink-3);min-width:26px;padding-top:2px;
+  font-variant-numeric:tabular-nums}
+.ep__t{font-size:16.5px;font-weight:600;margin:0 0 6px;line-height:1.5}
+.ep__p{margin:0;font-size:14px;color:var(--ink-3);line-height:1.65;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* 본문 */
+.art{padding:56px 0 40px}
+.art__meta{font-size:12px;letter-spacing:.1em;color:var(--accent-d);font-weight:700;margin:0 0 14px}
+.art h1{font-family:var(--serif);font-size:clamp(25px,4.6vw,33px);line-height:1.45;
+  margin:0 0 22px;font-weight:700;letter-spacing:-.015em}
+.art__purpose{margin:0 0 40px;padding:18px 20px;background:var(--bg-2);border-radius:10px;
+  font-size:15px;color:var(--ink-2);line-height:1.75}
+.art h2{font-family:var(--serif);font-size:20px;margin:46px 0 16px;font-weight:700;line-height:1.5}
+.art p{margin:0 0 26px;color:var(--ink-2)}
+.box{margin:34px 0;padding:22px 24px;border-radius:12px;background:var(--bg-2);
+  border:1px solid var(--line)}
+.box h3{margin:0 0 14px;font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--accent-d)}
+.box ul,.box ol{margin:0;padding-left:19px;color:var(--ink-2);font-size:15.5px}
+.box li{margin:8px 0;line-height:1.75}
+.box .chips{display:flex;flex-wrap:wrap;gap:7px}
+.box .chip{border:1px solid var(--line-2);border-radius:999px;padding:5px 13px;font-size:13.5px;
+  color:var(--ink-2);background:var(--bg)}
+.box .cl{list-style:none;padding:0}
+.box .cl label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.box .cl input{margin-top:7px;accent-color:var(--accent);flex:none}
+.box p{margin:0 0 12px;font-size:15.5px;color:var(--ink-2)}
+.box .nt{font-size:13px;color:var(--ink-3);font-style:italic;margin:12px 0 0}
+
+/* 다음 화 */
+.nx{padding:0 0 80px}
+.nx a{display:block;border:1px solid var(--line);border-radius:14px;padding:24px;
+  background:var(--bg-2)}
+.nx a:hover{border-color:var(--accent)}
+.nx span{font-size:12px;letter-spacing:.1em;color:var(--ink-3);font-weight:700}
+.nx b{display:block;margin-top:8px;font-size:17px;line-height:1.5}
+.nx .home{text-align:center;margin-top:16px;font-size:14px;color:var(--ink-3)}
+
+.foot{border-top:1px solid var(--line);padding:34px 0 60px;font-size:13px;color:var(--ink-3);
+  text-align:center;background:var(--bg-2)}
+.foot p{margin:4px 0}
+
+@media (max-width:640px){
+  body{font-size:16.5px}
+  .cover{padding:56px 0 44px}
+  .ep{gap:14px}
+}
+@media print{ .bar,.pbar,.nx,.tgl{display:none} }
+
+/* 한국어판 블록 */
+.box--intro_q{background:#f2f8ff}
+.box--reflection{background:#faf5ff}
+.box--checklist{background:#fffaf0}
+[data-theme=dark] .box--intro_q,[data-theme=dark] .box--reflection,
+[data-theme=dark] .box--checklist{background:var(--bg-2)}
+.box__t{margin:0 0 14px;font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--accent-d)}
+.box__l{margin:0;padding-left:19px;color:var(--ink-2);font-size:15.5px}
+.box__l li{margin:9px 0;line-height:1.8}
+.art h1,.ep__t,.cover h1{word-break:keep-all}
