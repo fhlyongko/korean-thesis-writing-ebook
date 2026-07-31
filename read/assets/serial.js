@@ -199,6 +199,7 @@
     stage.style.height=viewH+"px";
     stage.style.padding=padT+"px "+M+"px "+padB+"px "+M+"px";
     stage.style.boxSizing="border-box";
+    stage.style.width=viewW+"px";
     stage.style.transform="translateX(0)";
     sizeFrame(viewW,viewH,ppS,M,w,gap);
     // measure
