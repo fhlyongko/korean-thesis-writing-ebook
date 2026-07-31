@@ -146,11 +146,12 @@
     if(pv&&pv.getAttribute("href")&&pv.style.display!=="none")prevHref=pv.getAttribute("href");})();
 
   var paged={on:false,built:false,spread:0,total:1,ppS:2,step:0};
-  var spine,zPrev,zNext,pgbar,pgNum,btnPrev,btnNext;
+  var leafL,leafR,gutter,shade,zPrev,zNext,pgbar,pgNum,btnPrev,btnNext;
 
   function buildPagedChrome(){
     if(paged.built)return;
-    spine=el("div","book-spine");document.body.appendChild(spine);
+    leafL=el("div","leaf l");leafR=el("div","leaf r");gutter=el("div","book-gutter");shade=el("div","turn-shade");
+    art.insertBefore(leafL,stage);art.insertBefore(leafR,stage);art.insertBefore(gutter,stage);art.appendChild(shade);
     zPrev=el("div","turn-zone prev");zNext=el("div","turn-zone next");
     document.body.appendChild(zPrev);document.body.appendChild(zNext);
     pgbar=el("div","pager-bar");
@@ -166,6 +167,20 @@
     art.addEventListener("touchend",function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>45){dx<0?turnNext():turnPrev();}});
     paged.built=true;
   }
+  function sizeFrame(viewW,viewH,ppS,M,w,gap){
+    if(!leafL)return; var top=10,h=viewH-20,ext=14;
+    leafL.style.top=top+"px";leafL.style.height=h+"px";
+    leafR.style.top=top+"px";leafR.style.height=h+"px";
+    if(ppS===2){
+      leafL.style.left=(M-ext)+"px";leafL.style.width=(w+2*ext)+"px";
+      leafR.style.left=(M+w+gap-ext)+"px";leafR.style.width=(w+2*ext)+"px";
+      var gw=56;gutter.style.top=top+"px";gutter.style.height=h+"px";gutter.style.left=(viewW/2-gw/2)+"px";gutter.style.width=gw+"px";
+    } else {
+      leafL.style.left=(M-ext)+"px";leafL.style.width=((viewW-2*M)+2*ext)+"px";
+    }
+  }
+  var sweepT=null;
+  function sweep(dir){ root.classList.remove("turn-next","turn-prev"); void art.offsetWidth; root.classList.add(dir); clearTimeout(sweepT); sweepT=setTimeout(function(){root.classList.remove(dir);},500); }
   function paginate(keepFrac){
     if(!isEpisode)return;
     stage.classList.add("book-stage");
@@ -185,6 +200,7 @@
     stage.style.padding=padT+"px "+M+"px "+padB+"px "+M+"px";
     stage.style.boxSizing="border-box";
     stage.style.transform="translateX(0)";
+    sizeFrame(viewW,viewH,ppS,M,w,gap);
     // measure
     var contentW = stage.scrollWidth - 2*M;
     var totalCols = Math.max(1, Math.round((contentW + gap) / (w + gap)));
@@ -206,8 +222,8 @@
     if(btnPrev)btnPrev.disabled=atStart; if(btnNext)btnNext.disabled=atEnd;
     if(zPrev)zPrev.classList.toggle("off",atStart); if(zNext)zNext.classList.toggle("off",atEnd);
   }
-  function turnNext(){ if(!paged.on)return; if(paged.spread<paged.total-1)goSpread(paged.spread+1); else if(nextHref)location.href=nextHref; }
-  function turnPrev(){ if(!paged.on)return; if(paged.spread>0)goSpread(paged.spread-1); else if(prevHref)location.href=prevHref+(prevHref.indexOf("?")<0?"?p=end":"&p=end"); }
+  function turnNext(){ if(!paged.on)return; if(paged.spread<paged.total-1){sweep("turn-next");goSpread(paged.spread+1);} else if(nextHref)location.href=nextHref; }
+  function turnPrev(){ if(!paged.on)return; if(paged.spread>0){sweep("turn-prev");goSpread(paged.spread-1);} else if(prevHref)location.href=prevHref+(prevHref.indexOf("?")<0?"?p=end":"&p=end"); }
   paged.repaginate=function(){ if(paged.on)paginate(true); };
 
   function enterPaged(){
@@ -224,7 +240,6 @@
     paged.on=false; if(modeBtn)modeBtn.classList.remove("mode-on");
     root.classList.remove("paged","spread");root.classList.add("scroll");
     if(stage){stage.classList.remove("book-stage");stage.style.cssText="";}
-    if(spine)spine.style.display="none";
     window.scrollTo(0,0); onScroll();
   }
   function applyMode(m,persist){

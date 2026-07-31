@@ -208,3 +208,26 @@ html.scroll .pager-bar,html.scroll .book-spine,html.scroll .turn-zone{display:no
 @media print{.book-spine,.turn-zone,.pager-bar{display:none!important}html.paged,html.paged body{overflow:visible;height:auto}html.paged .art{position:static}html.paged .book-stage{position:static;column-width:auto!important;column-count:1!important;transform:none!important;height:auto!important}}
 
 html.paged .bar{position:fixed;top:0;left:0;right:0;z-index:50}
+
+/* ===================== ePub book frame (open-book look) ===================== */
+html.paged .art{background:radial-gradient(135% 130% at 50% -12%, var(--pg2), var(--pg) 62%);perspective:2400px}
+.leaf{position:absolute;top:0;background:var(--card);border-radius:6px;box-shadow:0 12px 34px rgba(40,36,28,.17),0 2px 7px rgba(40,36,28,.10);z-index:1;pointer-events:none;display:none}
+html.paged .leaf{display:block}
+html.scroll .leaf,html.scroll .book-gutter,html.scroll .turn-shade{display:none!important}
+html.paged.spread .leaf.l{border-top-right-radius:2px;border-bottom-right-radius:2px}
+html.paged.spread .leaf.r{border-top-left-radius:2px;border-bottom-left-radius:2px}
+html.paged:not(.spread) .leaf.r{display:none}
+[data-theme=dark] .leaf{box-shadow:0 12px 34px rgba(0,0,0,.55),0 2px 7px rgba(0,0,0,.42)}
+.leaf::after{content:"";position:absolute;top:0;bottom:0;width:22px;pointer-events:none}
+html.paged.spread .leaf.l::after{right:0;background:linear-gradient(90deg,transparent,rgba(40,36,28,.10))}
+html.paged.spread .leaf.r::after{left:0;background:linear-gradient(270deg,transparent,rgba(40,36,28,.10))}
+.book-gutter{position:absolute;top:0;bottom:0;z-index:2;pointer-events:none;display:none;background:linear-gradient(90deg,transparent,rgba(40,36,28,.14) 42%,rgba(40,36,28,.16) 50%,rgba(40,36,28,.14) 58%,transparent)}
+html.paged.spread .book-gutter{display:block}
+[data-theme=dark] .book-gutter{background:linear-gradient(90deg,transparent,rgba(0,0,0,.45) 42%,rgba(0,0,0,.5) 50%,rgba(0,0,0,.45) 58%,transparent)}
+html.paged .book-stage{z-index:3;background:transparent}
+/* page-turn light sweep */
+.turn-shade{position:absolute;top:0;bottom:0;left:0;right:0;z-index:4;pointer-events:none;opacity:0}
+html.paged.turn-next .turn-shade{opacity:1;background:linear-gradient(90deg,rgba(40,36,28,.20),transparent 24%);animation:sweepN .46s ease forwards}
+html.paged.turn-prev .turn-shade{opacity:1;background:linear-gradient(270deg,rgba(40,36,28,.20),transparent 24%);animation:sweepP .46s ease forwards}
+@keyframes sweepN{from{transform:translateX(-45%)}to{transform:translateX(125%)}}
+@keyframes sweepP{from{transform:translateX(45%)}to{transform:translateX(-125%)}}
