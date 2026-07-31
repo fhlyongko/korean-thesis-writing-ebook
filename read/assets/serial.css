@@ -167,3 +167,44 @@ a{color:var(--acc-ink)}
 @media(min-width:640px){.nx .wrap{grid-template-columns:1fr 1fr}.nx .home{}}
 @media(max-width:520px){.bar__home{max-width:42vw}.bar__n{display:none}}
 @media print{.bar,.pbar,.drawer,.scrim,.fab,.nx{display:none!important}body{background:#fff}.box,.cl,.stats{break-inside:avoid}.art h2{break-after:avoid}}
+
+/* ===================== ePub / paged (page-flip) mode ===================== */
+html.paged, html.paged body{height:100%;max-height:100vh;overflow:hidden}
+html.paged .fab{display:none!important}
+html.paged .foot{display:none}
+html.paged .art{position:fixed;left:0;right:0;top:56px;bottom:46px;padding:0;margin:0;overflow:hidden;background:var(--pg)}
+html.paged .book-stage{position:absolute;top:0;left:0;height:100%;margin:0;max-width:none;box-sizing:border-box;column-fill:auto;transition:transform .44s cubic-bezier(.22,.61,.36,1);will-change:transform;font-size:var(--fs)}
+html.paged .book-stage.noanim{transition:none}
+html.paged .art__meta{margin-top:.2rem}
+/* keep large blocks whole where possible */
+html.paged .callout,html.paged .box,html.paged .box--intro_q,html.paged .box--objectives,html.paged .box--reflection,html.paged .keybox,html.paged .lead,html.paged .obj{break-inside:avoid}
+html.paged figure.tbl{overflow:hidden;break-inside:auto;box-shadow:none}
+html.paged figure.tbl table{font-size:.8rem}
+html.paged figure.tbl th{white-space:normal}
+html.paged figure.tbl tr{break-inside:avoid}
+html.paged .art>.book-stage>h1{break-after:avoid}
+html.paged .art h2,html.paged .prose h2,html.paged .art>.wrap>h2{break-after:avoid}
+/* spine shadow (spread only) */
+.book-spine{position:fixed;top:56px;bottom:46px;left:50%;width:74px;transform:translateX(-50%);pointer-events:none;z-index:5;opacity:.55;display:none;background:radial-gradient(ellipse 60% 100% at center, color-mix(in srgb,var(--ink) 13%,transparent), transparent 70%)}
+html.paged.spread .book-spine{display:block}
+/* turn zones */
+.turn-zone{position:fixed;top:56px;bottom:46px;width:12%;z-index:6;cursor:pointer;transition:background .15s}
+.turn-zone.prev{left:0}.turn-zone.next{right:0}
+.turn-zone.prev:hover{background:linear-gradient(to right, color-mix(in srgb,var(--acc) 9%,transparent), transparent)}
+.turn-zone.next:hover{background:linear-gradient(to left, color-mix(in srgb,var(--acc) 9%,transparent), transparent)}
+.turn-zone.off{opacity:.3;pointer-events:none}
+/* pager bar */
+.pager-bar{position:fixed;left:0;right:0;bottom:0;height:46px;display:none;align-items:center;justify-content:center;gap:.9rem;background:color-mix(in srgb,var(--pg) 90%,transparent);backdrop-filter:saturate(1.3) blur(10px);-webkit-backdrop-filter:saturate(1.3) blur(10px);border-top:1px solid var(--line);z-index:7}
+html.paged .pager-bar{display:flex}
+.pager-bar button{width:34px;height:34px;border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);border-radius:9px;cursor:pointer;font-size:1rem;line-height:1;display:grid;place-items:center;transition:.15s}
+.pager-bar button:hover:not(:disabled){border-color:var(--acc);color:var(--acc-ink)}
+.pager-bar button:disabled{opacity:.32;cursor:default}
+.pager-bar .pgnum{font-family:var(--san);font-size:.82rem;color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:6.5em;text-align:center}
+.pager-bar .pgnum b{color:var(--ink);font-weight:700}
+/* scroll mode hides paged chrome */
+html.scroll .pager-bar,html.scroll .book-spine,html.scroll .turn-zone{display:none!important}
+/* mode toggle active state */
+.iconbtn.mode-on{border-color:var(--acc);color:var(--acc-ink);background:var(--tint)}
+@media print{.book-spine,.turn-zone,.pager-bar{display:none!important}html.paged,html.paged body{overflow:visible;height:auto}html.paged .art{position:static}html.paged .book-stage{position:static;column-width:auto!important;column-count:1!important;transform:none!important;height:auto!important}}
+
+html.paged .bar{position:fixed;top:0;left:0;right:0;z-index:50}
