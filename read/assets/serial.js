@@ -126,3 +126,43 @@
 
   onScroll();
 })();
+
+/* ---- table reconstruction from serial-tables.json (non-destructive, words unchanged) ---- */
+(function(){
+  var m=location.pathname.match(/ep\/(\d+)\.html/); if(!m)return;
+  var ep=m[1];
+  var base=/\/ep\//.test(location.pathname)?"../assets/":"assets/";
+  function esc(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  fetch(base+"serial-tables.json").then(function(r){return r.ok?r.json():null}).then(function(map){
+    if(!map||!map[ep])return;
+    map[ep].forEach(function(t){
+      var ps=[].slice.call(document.querySelectorAll(".prose p, .art .wrap>p, .box p"));
+      var p=ps.filter(function(x){return x.textContent.indexOf(t.key)>=0})[0];
+      if(!p)return;
+      var nt=p.nextElementSibling; if(nt&&nt.classList&&nt.classList.contains("nt"))nt.remove();
+      var html="";
+      if(t.checklist){
+        var T=p.textContent, pre="", post="";
+        if(t.before){var bi=T.indexOf(t.before); if(bi>=0)pre=T.slice(0,bi+t.before.length);}
+        if(t.after){var ai=T.indexOf(t.after); if(ai>=0)post=T.slice(ai);}
+        if(pre)html+="<p>"+esc(pre)+"</p>";
+        html+='<ul class="cl">';
+        t.checklist.forEach(function(it){html+='<li><label><input type="checkbox" class="ckx"><span>'+esc(it)+"</span></label></li>";});
+        html+="</ul>";
+        if(post)html+="<p>"+esc(post)+"</p>";
+        p.outerHTML=html;
+        return;
+      }
+      if(t.intro)html+="<p>"+esc(t.intro)+"</p>";
+      html+='<figure class="tbl"><table>';
+      if(t.head){html+="<thead><tr>";t.head.forEach(function(h){html+="<th>"+esc(h)+"</th>";});html+="</tr></thead>";}
+      html+="<tbody>";
+      t.rows.forEach(function(r){html+="<tr>";r.forEach(function(c){html+="<td>"+esc(c)+"</td>";});html+="</tr>";});
+      html+="</tbody></table>";
+      if(t.cap)html+="<figcaption>"+esc(t.cap)+"</figcaption>";
+      html+="</figure>";
+      if(t.tail)html+="<p>"+esc(t.tail)+"</p>";
+      p.outerHTML=html;
+    });
+  }).catch(function(){});
+})();
